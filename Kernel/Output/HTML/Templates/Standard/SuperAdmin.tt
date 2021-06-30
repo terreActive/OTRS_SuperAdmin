@@ -1,0 +1,236 @@
+# --
+# Kernel/Output/HTML/Templates/Standard/SuperAdmin.tt
+#
+# Copyright (C) 2021 Othmar Wigger <othmar.wigger@terreactive.ch>
+# --
+# This software comes with ABSOLUTELY NO WARRANTY. For details, see
+# the enclosed file COPYING for license information (GPL). If you
+# did not receive this file, see http://www.gnu.org/licenses/gpl-3.0.txt.
+# --
+<div class="MainBox ARIARoleMain LayoutFixedSidebar SidebarFirst">
+  <h1>[% Translate("SuperAdmin") %]</h1>
+
+  <div class="SidebarColumn">
+    <div class="WidgetSimple">
+      <div class="Header">
+        <h2>Select Ticket or Article</h2>
+      </div>
+      <div class="Content">
+        <form action="[% Env("CGIHandle") %]" name="qform" enctype="multipart/form-data" method="post">
+          <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+          <input type="hidden" name="Subaction" value="ShowLastTickets">
+          [% Translate("Latest Tickets") %]:
+          <select name="HowMany" onchange="javascript:document.qform.submit();">
+            <option value="0">-</option>
+            <option value="5">[% Translate("Latest") %] 5 [% Translate("Tickets") %]</option>
+            <option value="10">[% Translate("Latest") %] 10 [% Translate("Tickets") %]</option>
+            <option value="15">[% Translate("Latest") %] 15 [% Translate("Tickets") %]</option>
+            <option value="20">[% Translate("Latest") %] 20 [% Translate("Tickets") %]</option>
+          </select>
+        </form>
+      </div>
+      <div class="Content">
+        <form action="[% Env("CGIHandle") %]" enctype="multipart/form-data" method="post">
+          <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+          <input type="hidden" name="Subaction" value="TicketShow">
+          [% Translate("TicketID to show") %]:
+          <input type="text" name="TicketID" value="[% Data.TicketID %]" size="4">
+          <input class="button" type="submit" value="[% Translate("OK") %]">
+        </form>
+      </div>
+      <div class="Content">
+        <form action="[% Env("CGIHandle") %]" enctype="multipart/form-data" method="post">
+          <input type="hidden" name="Action" value="[% Env("Action") %]"/>
+          <input type="hidden" name="Subaction" value="ArticleShow">
+          [% Translate("ArticleID to show") %]:
+          <input type="text" name="ArticleID" value="[% Data.ArticleID %]" size="4">
+          <input class="button" type="submit" value="[% Translate("OK") %]">
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="ContentColumn">
+    <div class="WidgetSimple">
+[% RenderBlockStart("SuperAdminTicketList") %]
+      <div class="Header">
+        <h2>[% Data.FoundTickets %]/[% Data.HowMany %] tickets</h2>
+      </div>
+      <div class="Content">
+      </div>
+[% RenderBlockEnd("SuperAdminTicketList") %]
+
+[% RenderBlockStart("TicketShow") %]
+      <div class="Header">
+        <h2>Edit Ticket</h2>
+      </div>
+      <div class="Content">
+        <table>
+          <tbody>
+            <tr>
+              <th>
+                [% Translate("Ticket ID") %]:
+              </th>
+              <td>
+                [% Data.TicketID %]
+                <form action="[% Env("CGIHandle") %]" enctype="multipart/form-data" method="post">
+                  <input type="hidden" name="Action" value="[% Env("Action") %]">
+                  <input type="hidden" name="Subaction" value="TicketDelete">
+                  <input type="hidden" name="TicketID" value="[% Data.TicketID %]">
+                  <input class="button" type="submit" value="[% Translate("Delete") %]">
+                </form>
+              </td>
+            </tr>
+
+            <tr>
+              <th>
+                [% Translate("Title") %]:
+              </th>
+              <td>
+                <form action="[% Env("CGIHandle") %]" enctype="multipart/form-data" method="post">
+                  <input type="hidden" name="Action" value="[% Env("Action") %]">
+                  <input type="hidden" name="Subaction" value="TicketChangeTitle">
+                  <input type="hidden" name="TicketID" value="[% Data.TicketID %]">
+                  <input type="text" name="Title" value="[% Data.Title | html %]" size="80">
+                  <input class="button" type="submit" value="[% Translate("Submit") %]">
+                </form>
+              </td>
+            </tr>
+
+            <tr>
+              <th>
+                [% Translate("Queue") %]
+              </th>
+              <td>
+                [% Data.Queue | html %]
+              </td>
+            </tr>
+
+            <tr>
+              <th>
+                [% Translate("State") %]
+              </th>
+              <td>
+                [% Data.State %]
+              </td>
+            </tr>
+
+            <tr>
+              <th>
+                [% Translate("Articles") %]:
+              </th>
+              <td>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>[% Translate("ArticleID") %]</th>
+                      <th>[% Translate("Subject") %]</th>
+                      <th>[% Translate("Time Accounted") %]</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+[% RenderBlockStart("ArticleRow") %]
+                    <tr>
+                      <td>
+                        <a href="[% Env("Baselink") %]Action=SuperAdmin&Subaction=ArticleShow&ArticleID=[% Data.ArticleID %]&[% Data.TicketID %]">[% Data.ArticleID %]</a>
+                      </td>
+                      <td>
+                        [% Data.Subject | truncate(100) | html %]
+                      </td>
+                      <td>
+                        [% Data.TimeUnit | html %]
+                      </td>
+                    </tr>
+[% RenderBlockEnd("ArticleRow") %]
+                  </tbody>
+                </table>
+              </td>
+            </tr>
+
+[% RenderBlockStart("Priority") %]
+            <tr>
+              <th>
+                [% Translate("Priority") %]:
+              </th>
+              <td>
+                <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post">
+                  <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                  <input type="hidden" name="Subaction" value="TicketChangePriority"/>
+                  <input type="hidden" name="TicketID" value="$Data{"TicketID"}"/>
+                    [% Data.PriorityStrg %]
+                  <input class="button" type="submit" value="[% Translate("Submit") %]"/>
+                </form>
+              </td>
+            </tr>
+[% RenderBlockEnd("Priority") %]
+
+[% RenderBlockStart("DueDate") %]
+            <tr>
+              <th>
+                [% Translate("Due Date") %]
+              </th>
+              <td>
+                <form action="$Env{"CGIHandle"}" name="compose" enctype="multipart/form-data" method="post">
+                  <input type="hidden" name="Action" value="$Env{"Action"}"/>
+                  <input type="hidden" name="Subaction" value="TicketChangeDueDate"/>
+                  <input type="hidden" name="TicketID" value="[% Data.TicketID %]"/>
+                  <input type="text" name="DueDate" value="[% Data.DueDate %]" size="10" maxlength="10">
+                    <a href="#"
+                       onClick="cal.select(document.forms['compose'].DueDate,'anchor1','dd.MM.yyyy'); return false;"
+                       name="anchor1" id="anchor1">[% Translate("Calendar") %]
+                    </a>
+                  </input>
+                  <input class="button" type="submit" value="[% Translate("Submit") %]" onclick="return submit_compose();"/>
+                </form>
+              </td>
+            </tr>
+[% RenderBlockEnd("DueDate") %]
+
+            <tr>
+              <th>
+                [% Translate("Force to State") %]:
+              </th>
+              <td>
+                <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post">
+                  <input type="hidden" name="Action" value="$Env{"Action"}">
+                  <input type="hidden" name="Subaction" value="TicketChangeState">
+                  <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+                  <select name="NewState" size="1">
+[% RenderBlockStart("State") %]
+                    <option value=[% Data.Key %]">
+                      [% Data.Value %]
+                    </option>
+[% RenderBlockEnd("State") %]
+                  </select>
+                  <input type="checkbox" name="CreateArticleOnStateChange" value="yes" checked>
+                    [% Translate("Create an mostly empty article") %]
+                  </input>
+                  <input class="button" type="submit" value="[% Translate("Submit") %]">
+                </form>
+              </td>
+            </tr>
+
+            <tr>
+              <th>
+                [% Translate("") %]:
+              </th>
+              <td>
+                .
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+
+
+
+
+
+  <h2>[% Translate("Articles") %]</h2>
+  <div id="OverviewBody" class="Overview TicketList">
+  </div>
+
+[% RenderBlockEnd("TicketShow") %]
+    </div>
+  </div>
+</div>
