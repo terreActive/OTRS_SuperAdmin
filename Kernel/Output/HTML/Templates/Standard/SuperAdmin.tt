@@ -22,10 +22,9 @@
           [% Translate("Latest Tickets") %]:
           <select name="HowMany" onchange="javascript:document.qform.submit();">
             <option value="0">-</option>
-            <option value="5">[% Translate("Latest") %] 5 [% Translate("Tickets") %]</option>
-            <option value="10">[% Translate("Latest") %] 10 [% Translate("Tickets") %]</option>
-            <option value="15">[% Translate("Latest") %] 15 [% Translate("Tickets") %]</option>
-            <option value="20">[% Translate("Latest") %] 20 [% Translate("Tickets") %]</option>
+            [% FOREACH ntickets IN [ 5, 10, 15, 20] %]
+            <option value="[% ntickets %]">[% Translate("Latest") %] [% ntickets %] [% Translate("Tickets") %]</option>
+            [% END %]
           </select>
         </form>
       </div>
@@ -120,7 +119,7 @@
                 [% Translate("Articles") %]:
               </th>
               <td>
-                <table>
+                <table class="DataTable">
                   <thead>
                     <tr>
                       <th>[% Translate("ArticleID") %]</th>
@@ -197,7 +196,7 @@
                   <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
                   <select name="NewState" size="1">
 [% RenderBlockStart("State") %]
-                    <option value=[% Data.Key %]">
+                    <option value=[% Data.Key %]>
                       [% Data.Value %]
                     </option>
 [% RenderBlockEnd("State") %]
