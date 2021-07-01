@@ -55,8 +55,6 @@
       <div class="Header">
         <h2>[% Data.FoundTickets %]/[% Data.HowMany %] tickets</h2>
       </div>
-      <div class="Content">
-      </div>
 [% RenderBlockEnd("SuperAdminTicketList") %]
 
 [% RenderBlockStart("TicketShow") %]
@@ -64,171 +62,150 @@
         <h2>Edit Ticket</h2>
       </div>
       <div class="Content">
-        <table>
-          <tbody>
-            <tr>
-              <th>
-                [% Translate("Ticket ID") %]:
-              </th>
-              <td>
-                [% Data.TicketID %]
-                <form action="[% Env("CGIHandle") %]" enctype="multipart/form-data" method="post">
-                  <input type="hidden" name="Action" value="[% Env("Action") %]">
-                  <input type="hidden" name="Subaction" value="TicketDelete">
-                  <input type="hidden" name="TicketID" value="[% Data.TicketID %]">
-                  <input class="button" type="submit" value="[% Translate("Delete") %]">
-                </form>
-              </td>
-            </tr>
+        <fieldset class="TableLike">
+          <label class="Mandatory">
+            [% Translate("Ticket ID") %]:
+          </label>
+          <div class="Field">
+            <form action="[% Env("CGIHandle") %]" enctype="multipart/form-data" method="post" class="W75pc">
+              [% Data.TicketID %]
+              <input type="hidden" name="Action" value="[% Env("Action") %]">
+              <input type="hidden" name="Subaction" value="TicketDelete">
+              <input type="hidden" name="TicketID" value="[% Data.TicketID %]">
+              <input class="button" type="submit" value="[% Translate("Delete") %]">
+            </form>
+          </div>
+          <div class="Clear"></div>
 
-            <tr>
-              <th>
-                [% Translate("Title") %]:
-              </th>
-              <td>
-                <form action="[% Env("CGIHandle") %]" enctype="multipart/form-data" method="post">
-                  <input type="hidden" name="Action" value="[% Env("Action") %]">
-                  <input type="hidden" name="Subaction" value="TicketChangeTitle">
-                  <input type="hidden" name="TicketID" value="[% Data.TicketID %]">
-                  <input type="text" name="Title" value="[% Data.Title | html %]" size="80">
-                  <input class="button" type="submit" value="[% Translate("Submit") %]">
-                </form>
-              </td>
-            </tr>
 
-            <tr>
-              <th>
-                [% Translate("Queue") %]
-              </th>
-              <td>
-                [% Data.Queue | html %]
-              </td>
-            </tr>
+          <label class="Mandatory" for="Title">
+            [% Translate("Title") %]:
+          </label>
+          <div class="Field">
+            <form action="[% Env("CGIHandle") %]" enctype="multipart/form-data" method="post" class="W75pc">
+              <input type="hidden" name="Action" value="[% Env("Action") %]">
+              <input type="hidden" name="Subaction" value="TicketChangeTitle">
+              <input type="hidden" name="TicketID" value="[% Data.TicketID %]">
+              <input type="text" name="Title" value="[% Data.Title | html %]" size="60">
+              <input class="button" type="submit" value="[% Translate("Submit") %]">
+            </form>
+          </div>
+          <div class="Clear"></div>
 
-            <tr>
-              <th>
-                [% Translate("State") %]
-              </th>
-              <td>
-                [% Data.State %]
-              </td>
-            </tr>
+          <label class="Mandatory">
+            [% Translate("Queue") %]:
+          </label>
+          <div class="Field">
+            [% Data.Queue | html %]
+          </div>
+          <div class="Clear"></div>
 
-            <tr>
-              <th>
-                [% Translate("Articles") %]:
-              </th>
-              <td>
-                <table class="DataTable">
-                  <thead>
-                    <tr>
-                      <th>[% Translate("ArticleID") %]</th>
-                      <th>[% Translate("Subject") %]</th>
-                      <th>[% Translate("Time Accounted") %]</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-[% RenderBlockStart("ArticleRow") %]
-                    <tr>
-                      <td>
-                        <a href="[% Env("Baselink") %]Action=SuperAdmin&Subaction=ArticleShow&ArticleID=[% Data.ArticleID %]&[% Data.TicketID %]">[% Data.ArticleID %]</a>
-                      </td>
-                      <td>
-                        [% Data.Subject | truncate(100) | html %]
-                      </td>
-                      <td>
-                        [% Data.TimeUnit | html %]
-                      </td>
-                    </tr>
-[% RenderBlockEnd("ArticleRow") %]
-                  </tbody>
-                </table>
-              </td>
-            </tr>
+          <label class="Mandatory">
+              [% Translate("State") %]
+          </label>
+          <div class="Field">
+            [% Data.State %]
+          </div>
+
+          <label class="Mandatory">
+            [% Translate("Articles") %]:
+          </label>
+          <div class="Field">
+            <div class="W50pc">
+              <table class="DataTable">
+                <thead>
+                  <tr>
+                    <th>[% Translate("ArticleID") %]</th>
+                    <th>[% Translate("Subject") %]</th>
+                    <th>[% Translate("Time Accounted") %]</th>
+                  </tr>
+                </thead>
+                <tbody>
+  [% RenderBlockStart("ArticleRow") %]
+                  <tr>
+                    <td>
+                      <a href="[% Env("Baselink") %]Action=SuperAdmin&Subaction=ArticleShow&ArticleID=[% Data.ArticleID %]&[% Data.TicketID %]">[% Data.ArticleID %]</a>
+                    </td>
+                    <td>
+                      [% Data.Subject | truncate(100) | html %]
+                    </td>
+                    <td>
+                      [% Data.TimeUnit | html %]
+                    </td>
+                  </tr>
+  [% RenderBlockEnd("ArticleRow") %]
+                </tbody>
+              </table>
+            </div>
+          </div>
 
 [% RenderBlockStart("Priority") %]
-            <tr>
-              <th>
-                [% Translate("Priority") %]:
-              </th>
-              <td>
-                <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post">
-                  <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                  <input type="hidden" name="Subaction" value="TicketChangePriority"/>
-                  <input type="hidden" name="TicketID" value="$Data{"TicketID"}"/>
-                    [% Data.PriorityStrg %]
-                  <input class="button" type="submit" value="[% Translate("Submit") %]"/>
-                </form>
-              </td>
-            </tr>
+          <label class="Mandatory">
+            [% Translate("Priority") %]:
+          </label>
+          <div class="Field">
+            <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post">
+              <input type="hidden" name="Action" value="$Env{"Action"}"/>
+              <input type="hidden" name="Subaction" value="TicketChangePriority"/>
+              <input type="hidden" name="TicketID" value="$Data{"TicketID"}"/>
+              [% Data.PriorityStrg %]
+              <input class="button" type="submit" value="[% Translate("Submit") %]"/>
+            </form>
+          </div>
 [% RenderBlockEnd("Priority") %]
 
 [% RenderBlockStart("DueDate") %]
-            <tr>
-              <th>
-                [% Translate("Due Date") %]
-              </th>
-              <td>
-                <form action="$Env{"CGIHandle"}" name="compose" enctype="multipart/form-data" method="post">
-                  <input type="hidden" name="Action" value="$Env{"Action"}"/>
-                  <input type="hidden" name="Subaction" value="TicketChangeDueDate"/>
-                  <input type="hidden" name="TicketID" value="[% Data.TicketID %]"/>
-                  <input type="text" name="DueDate" value="[% Data.DueDate %]" size="10" maxlength="10">
-                    <a href="#"
-                       onClick="cal.select(document.forms['compose'].DueDate,'anchor1','dd.MM.yyyy'); return false;"
-                       name="anchor1" id="anchor1">[% Translate("Calendar") %]
-                    </a>
-                  </input>
-                  <input class="button" type="submit" value="[% Translate("Submit") %]" onclick="return submit_compose();"/>
-                </form>
-              </td>
-            </tr>
+          <label class="Mandatory">
+            [% Translate("Due Date") %]:
+          </label>
+          <div class="Field">
+            <form action="$Env{"CGIHandle"}" name="compose" enctype="multipart/form-data" method="post">
+              <input type="hidden" name="Action" value="$Env{"Action"}"/>
+              <input type="hidden" name="Subaction" value="TicketChangeDueDate"/>
+              <input type="hidden" name="TicketID" value="[% Data.TicketID %]"/>
+              <input type="text" name="DueDate" value="[% Data.DueDate %]" size="10" maxlength="10">
+              <a href="#"
+                  onClick="cal.select(document.forms['compose'].DueDate,'anchor1','dd.MM.yyyy'); return false;"
+                  name="anchor1" id="anchor1">[% Translate("Calendar") %]
+              </a>
+              </input>
+              <input class="button" type="submit" value="[% Translate("Submit") %]" onclick="return submit_compose();"/>
+            </form>
+          </div>
 [% RenderBlockEnd("DueDate") %]
 
-            <tr>
-              <th>
-                [% Translate("Force to State") %]:
-              </th>
-              <td>
-                <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post">
-                  <input type="hidden" name="Action" value="$Env{"Action"}">
-                  <input type="hidden" name="Subaction" value="TicketChangeState">
-                  <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
-                  <select name="NewState" size="1">
+          <label class="Mandatory">
+            [% Translate("Force to State") %]:
+          </label>
+          <div class="Field">
+            <form action="$Env{"CGIHandle"}" enctype="multipart/form-data" method="post">
+              <input type="hidden" name="Action" value="$Env{"Action"}">
+              <input type="hidden" name="Subaction" value="TicketChangeState">
+              <input type="hidden" name="TicketID" value="$Data{"TicketID"}">
+              <select name="NewState" size="1">
 [% RenderBlockStart("State") %]
-                    <option value=[% Data.Key %]>
-                      [% Data.Value %]
-                    </option>
+                <option value=[% Data.Key %]>
+                  [% Data.Value %]
+                </option>
 [% RenderBlockEnd("State") %]
-                  </select>
-                  <input type="checkbox" name="CreateArticleOnStateChange" value="yes" checked>
-                    [% Translate("Create an mostly empty article") %]
-                  </input>
-                  <input class="button" type="submit" value="[% Translate("Submit") %]">
-                </form>
-              </td>
-            </tr>
+              </select>
+              <br>
+              <input type="checkbox" name="CreateArticleOnStateChange" value="yes" checked>
+                [% Translate("Create an mostly empty article") %]
+              </input>
+              <br>
+              <input class="button" type="submit" value="[% Translate("Submit") %]">
+            </form>
+          </div>
 
-            <tr>
-              <th>
-                [% Translate("") %]:
-              </th>
-              <td>
-                .
-              </td>
-            </tr>
-
-          </tbody>
-        </table>
-
-
-
-
-
-  <h2>[% Translate("Articles") %]</h2>
-  <div id="OverviewBody" class="Overview TicketList">
-  </div>
-
+          <label class="Mandatory">
+            [% Translate("") %]:
+          </label>
+          <div class="Field">
+              .
+          </div>
+        </div>
+      </div>
 [% RenderBlockEnd("TicketShow") %]
     </div>
   </div>
