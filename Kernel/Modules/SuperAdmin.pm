@@ -398,7 +398,7 @@ sub TicketShow {
         Data => \%Priorities,
         Name => 'PriorityID',
         SortBy => 'KeyNumeric',
-        SelectedValue => $Ticket{PriorityID} || '2 Normal',
+        SelectedValue => $Ticket{Priority} || '2 Normal',
     );
     $LayoutObject->Block(
         Name => 'Priority',
