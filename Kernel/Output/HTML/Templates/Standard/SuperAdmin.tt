@@ -55,6 +55,32 @@
       <div class="Header">
         <h2>[% Data.FoundTickets %]/[% Data.HowMany %] tickets</h2>
       </div>
+      <table class="DataTable">
+        <thead>
+          <tr>
+            <td>TicketID</td>
+            <td>Queue</td>
+            <td>Titel</td>
+            <td>Status</td>
+            <td>Owner</td>
+          <tr>
+        </thead>
+        <tbody>
+[% RenderBlockStart("Row") %]
+          <tr class="MasterAction">
+            <td>
+              <a href="[% Env("Baselink") %]Action=SuperAdmin&Subaction=TicketShow&TicketID=[% Data.TicketID %]" class="MasterActionLink">
+                [% Data.TicketID %]
+              </a>
+            </td>
+            <td>[% Data.Queue %]</td>
+            <td>[% Data.Title %]</td>
+            <td>[% Data.State %]</td>
+            <td>[% Data.Owner %]</td>
+          </tr>
+[% RenderBlockEnd("Row") %]
+        </tbody>
+      </table>
 [% RenderBlockEnd("SuperAdminTicketList") %]
 
 [% RenderBlockStart("TicketShow") %]
@@ -62,7 +88,9 @@
         <h2>Edit Ticket</h2>
       </div>
       <div class="Content">
-        <form action="[% Env("CGIHandle") %]" method="post" enctype="multipart/form-data" id="EditTicket">
+        <form action="[% Env("CGIHandle") %]" enctype="multipart/form-data" method="post">
+          <input type="hidden" name="Action" value="[% Env("Action") %]">
+          <input type="hidden" name="TicketID" value="[% Data.TicketID %]">
           <fieldset class="TableLike">
             <label class="Mandatory">
               [% Translate("Ticket ID") %]:
@@ -72,12 +100,20 @@
             </div>
             <div class="Clear"></div>
 
+            <label class="Mandatory">
+              [% Translate("Ticket#") %]:
+            </label>
+            <div class="Field">
+              [% Data.TicketNumber %]
+            </div>
+            <div class="Clear"></div>
 
             <label class="Mandatory" for="Title">
               [% Translate("Title") %]:
             </label>
             <div class="Field">
-              <input type="text" name="Title" value="[% Data.Title | html %]" class="W60pc">
+              <input type="text" name="Title" value="[% Data.Title | html %]" class="W50pc">
+              <button class="Primary CallForAction" title="[% Translate("Update Title") | html %]" type="submit" name="Subaction" value="TicketChangeTitle"><span><i class="fa fa-paper-plane"></i> [% Translate("Update Title") | html %]</span></button>
             </div>
             <div class="Clear"></div>
 
@@ -86,14 +122,6 @@
             </label>
             <div class="Field">
               [% Data.Queue | html %]
-            </div>
-            <div class="Clear"></div>
-
-            <label class="Mandatory">
-                [% Translate("State") %]
-            </label>
-            <div class="Field">
-              [% Data.State %]
             </div>
             <div class="Clear"></div>
 
@@ -111,9 +139,9 @@
                 </thead>
                 <tbody>
 [% RenderBlockStart("ArticleRow") %]
-                  <tr>
+                  <tr class="MasterAction">
                     <td>
-                      <a href="[% Env("Baselink") %]Action=SuperAdmin&Subaction=ArticleShow&ArticleID=[% Data.ArticleID %]&[% Data.TicketID %]">[% Data.ArticleID %]</a>
+                      <a href="[% Env("Baselink") %]Action=SuperAdmin&Subaction=ArticleShow&ArticleID=[% Data.ArticleID %]&[% Data.TicketID %]" class="MasterActionLink">[% Data.ArticleID %]</a>
                     </td>
                     <td>
                       [% Data.Subject | truncate(100) | html %]
@@ -134,6 +162,7 @@
             </label>
             <div class="Field">
               [% Data.PriorityStrg %]
+              <button class="Primary CallForAction" title="[% Translate("Update Priority") | html %]" type="submit" name="Subaction" value="TicketChangePriority"><span><i class="fa fa-paper-plane"></i> [% Translate("Update Priority") | html %]</span></button>
             </div>
             <div class="Clear"></div>
 [% RenderBlockEnd("Priority") %]
@@ -143,51 +172,149 @@
               [% Translate("Due Date") %]:
             </label>
             <div class="Field">
-              <input type="text" name="DueDate" value="[% Data.DueDate %]" size="10" maxlength="10">
-              <a href="#"
-                  onClick="cal.select(document.forms['compose'].DueDate,'anchor1','dd.MM.yyyy'); return false;"
-                  name="anchor1" id="anchor1">[% Translate("Calendar") %]
-              </a>
+              [% Data.DueDate %]
+              <button class="Primary CallForAction" title="[% Translate("Update Due Date") | html %]" type="submit" name="Subaction" value="TicketChangeDueDate"><span><i class="fa fa-paper-plane"></i> [% Translate("Update Due Date") | html %]</span></button>
             </div>
             <div class="Clear"></div>
 [% RenderBlockEnd("DueDate") %]
 
+[% RenderBlockStart("States") %]
             <label class="Mandatory">
               [% Translate("Force to State") %]:
             </label>
             <div class="Field">
-              <select name="NewState" size="1">
-[% RenderBlockStart("State") %]
-                <option value=[% Data.Key %]>
-                  [% Data.Value %]
-                </option>
-[% RenderBlockEnd("State") %]
-              </select>
-              <br>
+              [% Data.States %]
               <input type="checkbox" name="CreateArticleOnStateChange" value="yes" checked>
                 [% Translate("Create an mostly empty article") %]
               </input>
+              <button class="Primary CallForAction" title="[% Translate("Update State") | html %]" type="submit" name="Subaction" value="TicketChangeState"><span><i class="fa fa-paper-plane"></i> [% Translate("Update State") | html %]</span></button>
             </div>
             <div class="Clear"></div>
+[% RenderBlockEnd("States") %]
 
+[% RenderBlockStart("TicketDynamicFieldText") %]
             <label class="Mandatory">
-              [% Translate("") %]:
+              [% Translate(Data.Label) %]:
             </label>
             <div class="Field">
-                .
+              <input type="text" name="TicketDynamicFieldValue_[% Data.FieldID %]" value="[% Data.Value | html %]" class="W50pc" [% IF Data.RegExErrorMessage %] title="[% Data.RegExErrorMessage %]" pattern="[% Data.RegEx %]" [% END %]>
+              <button class="Primary CallForAction" title="[% Translate("Update ${Data.Label}") | html %]" type="submit" name="Subaction" value="TicketUpdateDynamicField_[% Data.FieldID %]"><span><i class="fa fa-paper-plane"></i> [% Translate("Update ${Data.Label}") | html %]</span></button>
+              <button class="Primary CallForAction" title="[% Translate("Remove ${Data.Label}") | html %]" type="submit" name="Subaction" value="TicketDeleteDynamicField_[% Data.FieldID %]"><span><i class="fa fa-trash"></i> [% Translate("Remove ${Data.Label}") | html %]</span></button>
             </div>
             <div class="Clear"></div>
-            
-            <label class="Mandatory SpacingTop" style="text-align: left">
-              <button class="Primary CallForAction" id="deleteTicket" title="[% Translate("Delete Ticket") | html %]" type="submit" value="[% Translate("Delete Ticket") | html %]" ><span><i class="fa fa-trash"></i> [% Translate("Delete Ticket") | html %]</span></button>
+[% RenderBlockEnd("TicketDynamicFieldText") %]
+
+[% RenderBlockStart("TicketDynamicFieldDropdown") %]
+            <label class="Mandatory">
+              [% Translate(Data.Label) %]:
             </label>
-            <div class="Field SpacingTop">
-              <button class="Primary CallForAction" id="updateTicket" title="[% Translate("Update Ticket") | html %]" type="submit" value="[% Translate("Update Ticket") | html %]" ><span><i class="fa fa-paper-plane"></i> [% Translate("Update Ticket") | html %]</span></button>
+            <div class="Field">
+              [% Data.PossibleValues %]
+              <button class="Primary CallForAction" title="[% Translate("Update ${Data.Label}") | html %]" type="submit" name="Subaction" value="TicketUpdateDynamicField_[% Data.FieldID %]"><span><i class="fa fa-paper-plane"></i> [% Translate("Update ${Data.Label}") | html %]</span></button>
+              <button class="Primary CallForAction" title="[% Translate("Remove ${Data.Label}") | html %]" type="submit" name="Subaction" value="TicketDeleteDynamicField_[% Data.FieldID %]"><span><i class="fa fa-trash"></i> [% Translate("Remove ${Data.Label}") | html %]</span></button>
             </div>
+            <div class="Clear"></div>
+[% RenderBlockEnd("TicketDynamicFieldDropdown") %]
+
+[% RenderBlockStart("TicketDynamicFieldDate") %]
+            <label class="Mandatory">
+              [% Translate(Data.Label) %]:
+            </label>
+            <div class="Field">
+              [% Data.Date %]
+              <button class="Primary CallForAction" title="[% Translate("Update ${Data.Label}") | html %]" type="submit" name="Subaction" value="TicketUpdateDynamicField_[% Data.FieldID %]"><span><i class="fa fa-paper-plane"></i> [% Translate("Update ${Data.Label}") | html %]</span></button>
+              <button class="Primary CallForAction" title="[% Translate("Remove ${Data.Label}") | html %]" type="submit" name="Subaction" value="TicketDeleteDynamicField_[% Data.FieldID %]"><span><i class="fa fa-trash"></i> [% Translate("Remove ${Data.Label}") | html %]</span></button>
+            </div>
+            <div class="Clear"></div>
+[% RenderBlockEnd("TicketDynamicFieldDate") %]
+
+[% RenderBlockStart("TicketDynamicFieldTextAdd") %]
+            <label class="Mandatory">
+              [% Translate(Data.Label) %]:
+            </label>
+            <div class="Field">
+              <button class="Primary CallForAction" title="[% Translate("Add ${Data.Label}") | html %]" type="submit" name="Subaction" value="TicketAddDynamicField_[% Data.FieldID %]"><span><i class="fa fa-plus"></i> [% Translate("Add ${Data.Label}") | html %]</span></button>
+            </div>
+            <div class="Clear"></div>
+[% RenderBlockEnd("TicketDynamicFieldTextAdd") %]
+
           </fieldset>
         </form>
       </div>
 [% RenderBlockEnd("TicketShow") %]
+
+[% RenderBlockStart("ArticleShow") %]
+      <div class="Header">
+        <h2>[% Translate("Edit Article") %] [% Data.ArticleID %]</h2>
+      </div>
+      <div class="Content">
+        <form action="[% Env("CGIHandle") %]" enctype="multipart/form-data" method="post">
+          <input type="hidden" name="Action" value="[% Env("Action") %]">
+          <input type="hidden" name="Subaction" value="ArticleEdit">
+          <input type="hidden" name="ArticleID" value="[% Data.ArticleID %]">
+          <fieldset class="TableLike">
+            <label class="Mandatory">
+              ArticleID:
+            </label>
+            <div class="Field">
+              [% Data.ArticleID %]
+            </div>
+            <div class="Clear"></div>
+
+            <label class="Mandatory">
+              Subject:
+            </label>
+            <div class="Field">
+              <input type="text" name="Subject" value="[% Data.Subject | html %]" class="W33pc">
+            </div>
+            <div class="Clear"></div>
+
+            <label class="Mandatory">
+              From:
+            </label>
+            <div class="Field">
+              <input type="text" name="From" value="[% Data.From | html %]" class="W33pc">
+            </div>
+            <div class="Clear"></div>
+
+            <label class="Mandatory">
+              To:
+            </label>
+            <div class="Field">
+              <input type="text" name="To" value="[% Data.To | html %]" class="W33pc">
+            </div>
+            <div class="Clear"></div>
+
+            <label class="Mandatory">
+              Cc:
+            </label>
+            <div class="Field">
+              <input type="text" name="Cc" value="[% Data.Cc | html %]" class="W33pc">
+            </div>
+            <div class="Clear"></div>
+
+            <label class="Mandatory">
+              Accounted Time (min):
+            </label>
+            <div class="Field">
+              <input type="text" name="AccountedTime" value="[% Data.AccountedTime | html %]" class="W33pc">
+            </div>
+            <div class="Clear"></div>
+
+            <label class="Mandatory">
+              Body:
+            </label>
+            <div class="Field">
+              <textarea name="Body" class="W33pc" rows="10">[% Data.Body | html %]</textarea>
+            </div>
+            <div class="Clear"></div>
+            <div class="Field">
+              <button class="Primary CallForAction" title="[% Translate("Update Article") | html %]" type="submit" value="[% Translate("Submit") %]"><span><i class="fa fa-paper-plane"></i> [% Translate("Update Article") | html %]</span></button>
+            </div>
+          </fieldset>
+        </form>
+      </div>
+[% RenderBlockEnd("ArticleShow") %]
     </div>
   </div>
 </div>
