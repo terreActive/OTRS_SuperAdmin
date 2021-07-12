@@ -20,7 +20,7 @@
           <input type="hidden" name="Action" value="[% Env("Action") %]"/>
           <input type="hidden" name="Subaction" value="ShowLastTickets">
           [% Translate("Latest Tickets") %]:
-          <select name="HowMany" onchange="javascript:document.qform.submit();">
+          <select name="HowMany" onchange="javascript:document.qform.submit();" class="Modernize">
             <option value="0">-</option>
             [% FOREACH ntickets IN [ 5, 10, 15, 20] %]
             <option value="[% ntickets %]">[% Translate("Latest") %] [% ntickets %] [% Translate("Tickets") %]</option>
@@ -31,19 +31,17 @@
       <div class="Content">
         <form action="[% Env("CGIHandle") %]" enctype="multipart/form-data" method="post">
           <input type="hidden" name="Action" value="[% Env("Action") %]"/>
-          <input type="hidden" name="Subaction" value="TicketShow">
           [% Translate("TicketID to show") %]:
           <input type="text" name="TicketID" value="[% Data.TicketID %]" size="4">
-          <input class="button" type="submit" value="[% Translate("OK") %]">
+          <button class="Primary CallForAction" title="[% Translate("OK") | html %]" type="submit" name="Subaction" value="TicketShow"><span><i class="fa fa-paper-plane"></i> [% Translate("OK") | html %]</span></button>
         </form>
       </div>
       <div class="Content">
         <form action="[% Env("CGIHandle") %]" enctype="multipart/form-data" method="post">
           <input type="hidden" name="Action" value="[% Env("Action") %]"/>
-          <input type="hidden" name="Subaction" value="ArticleShow">
           [% Translate("ArticleID to show") %]:
           <input type="text" name="ArticleID" value="[% Data.ArticleID %]" size="4">
-          <input class="button" type="submit" value="[% Translate("OK") %]">
+          <button class="Primary CallForAction" title="[% Translate("OK") | html %]" type="submit" name="Subaction" value="ArticleShow"><span><i class="fa fa-paper-plane"></i> [% Translate("OK") | html %]</span></button>
         </form>
       </div>
     </div>
