@@ -764,9 +764,15 @@ sub ArticleEdit {
         ArticleID => $ArticleID
     );
 
+    if ($GetParam{'Body'} && $GetParam{'Body'} ne '') {
+        $ArticleBackendObject->ArticleDeleteAttachment(
+            TicketID  => $TicketID,
+            ArticleID => $ArticleID,
+            UserID => $Self->{UserID}
+        );
+    }
     foreach (qw(Subject From To Cc Body)) {
-        if ( $GetParam{$_} && $GetParam{$_} ne '' ) {
-            #Note: Key ``Body'', ``Subject'', ``From'', ``To'' and ``Cc'' is implemented.
+        if ($GetParam{$_} && $GetParam{$_} ne '') {
             $ArticleBackendObject->ArticleUpdate(
                 TicketID => $TicketID,
                 ArticleID => $ArticleID,

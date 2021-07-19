@@ -304,6 +304,8 @@
             </label>
             <div class="Field">
               <textarea name="Body" class="W33pc" rows="10">[% Data.Body | html %]</textarea>
+              <br>
+              <p class="Error">Changing the body will cause the formatting to be lost.</p>
             </div>
             <div class="Clear"></div>
             <div class="Field">
