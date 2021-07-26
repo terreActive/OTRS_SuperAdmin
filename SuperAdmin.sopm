@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<otrs_package version="1.1">
+  <Name>SuperAdmin</Name>
+  <Version>1.0.0</Version>
+  <Framework>6.x.x</Framework>
+  <Vendor>terreActive AG</Vendor>
+  <URL>http://www.terreactive.ch/</URL>
+  <License>GNU AFFERO GENERAL PUBLIC LICENSE Version 3, November 2007</License>
+  <ChangeLog Version="0.0.1" Date="2011-01-01 11:11:11">SuperAdmin for OTRS 2.1.7</ChangeLog>
+  <ChangeLog Version="1.0.0" Date="2021-06-15 17:00:00">Rewrite for OTRS 6</ChangeLog>
+  <Description Lang="en">Change ticket and article data</Description>
+  <Description Lang="de">SuperAdmin darf Ticket- und Artikeldaten editieren</Description>
+  <IntroInstall Type="post" Lang="en" Title="Success!">Now add some agent user to the _SuperAdmin group.</IntroInstall>
+  <IntroInstall Type="post" Lang="de" Title="Erfolgreich installiert!">Fügen Sie nun einen Agent-User zur Gruppe SuperAdmin hinzu.</IntroInstall>
+  <PackageIsVisible>1</PackageIsVisible>
+  <PackageIsDownloadable>1</PackageIsDownloadable>
+  <PackageIsRemovable>1</PackageIsRemovable>
+  <BuildDate>?</BuildDate>
+  <Filelist>
+    <File Permission="644" Location="Kernel/Modules/SuperAdmin.pm"/>
+    <File Permission="644" Location="Kernel/System/SuperAdmin.pm"/>
+    <File Permission="644" Location="Kernel/Output/HTML/Templates/Standard/SuperAdmin.tt"/>
+    <File Permission="644" Location="Kernel/Config/Files/XML/SuperAdmin.xml"/>
+  </Filelist>
+</otrs_package>
