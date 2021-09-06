@@ -24,6 +24,7 @@ Build Package:
   - cp /opt/otrs/Kernel/Config.pm.dist /opt/otrs/Kernel/Config.pm
   - chown -R otrs /opt/otrs
   - su otrs -c "/opt/otrs/bin/otrs.Console.pl Dev::Package::Build --module-directory . SuperAdmin.sopm /tmp"
+  - ls -l /tmp/
   artifacts:
     paths:
       - /tmp/SuperAdmin-1.0.0.opm
