@@ -5,11 +5,7 @@ variables:
   http_proxy:   'http://wsa0.terreactive.ch:3125'
   https_proxy:  'http://wsa0.terreactive.ch:3125'
 
-Build Package:
-  except:
-    variables:
-      - $CI_COMMIT_MESSAGE =~ /\[build only\]/
-
+Build Package: 
   script:
   # make sure we can install from ubuntu
   - pab3swsrc latest_open-dev-dis
@@ -24,5 +20,6 @@ Build Package:
   # Install otrs stuff
   - git clone https://github.com/znuny/Znuny.git
   - mv Znuny /opt/otrs
+  - perl /opt/otrs/bin/otrs.CheckModules.pl
   - cp /opt/otrs/Kernel/Config.pm.dist /opt/otrs/Kernel/Config.pm
   - /opt/otrs/bin/otrs.Console.pl Dev::Package::Build --module-directory . SuperAdmin.sopm /tmp
