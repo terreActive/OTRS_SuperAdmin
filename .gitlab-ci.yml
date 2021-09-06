@@ -20,9 +20,11 @@ Build Package:
   # Install otrs stuff
   - git clone https://github.com/znuny/Znuny.git
   - mv Znuny /opt/otrs
-  - perl /opt/otrs/bin/otrs.CheckModules.pl
   - useradd -d /opt/otrs -c 'OTRS user' otrs
   - cp /opt/otrs/Kernel/Config.pm.dist /opt/otrs/Kernel/Config.pm
   - chown -R otrs /opt/otrs
   - su otrs -c "/opt/otrs/bin/otrs.Console.pl Dev::Package::Build --module-directory . SuperAdmin.sopm /tmp"
-  - ls -l /tmp
+  artifacts:
+    paths:
+      - /tmp/SuperAdmin-1.0.0.opm
+    expire_in: 1 week
