@@ -24,4 +24,5 @@ Build Package:
   # Install otrs stuff
   - git clone https://github.com/znuny/Znuny.git
   - mv Znuny /opt/otrs
+  - cp /opt/otrs/Kernel/Config.pm.dist /opt/otrs/Kernel/Config.pm
   - /opt/otrs/bin/otrs.Console.pl Dev::Package::Build --module-directory . SuperAdmin.sopm /tmp
