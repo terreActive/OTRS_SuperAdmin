@@ -25,4 +25,4 @@ Build Package:
   - cp /opt/otrs/Kernel/Config.pm.dist /opt/otrs/Kernel/Config.pm
   - pwd
   - chown -R otrs /opt/otrs
-  - su -c "/opt/otrs/bin/otrs.Console.pl Dev::Package::Build --module-directory . SuperAdmin.sopm /tmp"
+  - su otrs -c "/opt/otrs/bin/otrs.Console.pl Dev::Package::Build --module-directory . SuperAdmin.sopm /tmp"
