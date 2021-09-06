@@ -24,5 +24,6 @@ Build Package:
   - useradd -d /opt/otrs -c 'OTRS user' otrs
   - cp /opt/otrs/Kernel/Config.pm.dist /opt/otrs/Kernel/Config.pm
   - pwd
+  - ls -l
   - chown -R otrs /opt/otrs
   - su otrs -c "/opt/otrs/bin/otrs.Console.pl Dev::Package::Build --module-directory . SuperAdmin.sopm /tmp"
