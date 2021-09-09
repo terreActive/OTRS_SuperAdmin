@@ -23,8 +23,8 @@ Build Package:
   - useradd -d /opt/otrs -c 'OTRS user' otrs
   - cp /opt/otrs/Kernel/Config.pm.dist /opt/otrs/Kernel/Config.pm
   - chown -R otrs /opt/otrs
-  - su otrs -c "/opt/otrs/bin/otrs.Console.pl Dev::Package::Build --module-directory . SuperAdmin.sopm ."
+  - su otrs -c "/opt/otrs/bin/otrs.Console.pl Dev::Package::Build --module-directory . *.sopm ."
   artifacts:
     paths:
-      - SuperAdmin-1.0.0.opm
+      - '*-*.opm'
     expire_in: 1 week
