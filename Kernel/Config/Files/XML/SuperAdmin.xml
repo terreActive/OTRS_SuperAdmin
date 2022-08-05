@@ -52,7 +52,7 @@
               <Item Key="Module">Kernel::Output::HTML::NavBar::ModuleAdmin</Item>
               <Item Key="Name" Translatable="1">Super Admin</Item>
               <Item Key="Block">Administration</Item>
-              <Item Key="Description" Translatable="1">Powerful tool for edit articles or tickets.</Item>
+              <Item Key="Description" Translatable="1">Powerful tool to edit articles or tickets</Item>
               <Item Key="IconBig">fa-unlock-alt</Item>
               <Item Key="IconSmall"></Item>
           </Hash>
