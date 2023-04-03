@@ -1,0 +1,16 @@
+on: push
+
+jobs:
+  build-opm:
+    container:
+      image: freicon/opmbuild
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3
+    - name: Check checkout
+      run: /usr/bin/find / -name SuperAdmin.sopm
+    - name: Check SOPM
+      run: /usr/local/bin/opmbuild sopmtest $GITHUB_WORKSPACE/SuperAdmin.sopm
+    - name: build OPM
+      run: /usr/local/bin/opmbuild build $GITHUB_WORKSPACE/SuperAdmin.sopm
