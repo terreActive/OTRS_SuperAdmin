@@ -1,4 +1,8 @@
-on: push
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 2 * * 1'
 
 jobs:
   build-opm:
@@ -17,4 +21,4 @@ jobs:
       with:
         name: SuperAdmin
         path: ${{ github.workspace }}/*.opm
-        retention-days: 7
+        retention-days: 10
