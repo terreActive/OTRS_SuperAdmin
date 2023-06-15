@@ -17,7 +17,6 @@
   <IntroInstall Type="post" Lang="de" Title="Erfolgreich installiert!">Fügen Sie nun einen Agent-User zur Gruppe _SuperAdmin hinzu.</IntroInstall>
   <BuildDate>?</BuildDate>
   <Filelist>
-    <File Permission="644" Location="LICENSE"/>
     <File Permission="644" Location="Kernel/Modules/SuperAdmin.pm"/>
     <File Permission="644" Location="Kernel/System/SuperAdmin.pm"/>
     <File Permission="644" Location="Kernel/Output/HTML/Templates/Standard/SuperAdmin.tt"/>
