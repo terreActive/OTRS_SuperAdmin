@@ -1,4 +1,8 @@
-on: push
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 2 * * 1'
 
 jobs:
   build-opm:
@@ -6,7 +10,7 @@ jobs:
       image: freicon/opmbuild
     runs-on: ubuntu-latest
     steps:
-    - name: checkout
+    - name: Checkout Git Repository
       uses: actions/checkout@v3
     - name: Check SOPM
       run: /usr/local/bin/opmbuild sopmtest $GITHUB_WORKSPACE/SuperAdmin.sopm
@@ -17,4 +21,4 @@ jobs:
       with:
         name: SuperAdmin
         path: ${{ github.workspace }}/*.opm
-        retention-days: 7
+        retention-days: 10
