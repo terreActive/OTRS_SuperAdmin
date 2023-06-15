@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <otrs_package version="1.1">
   <Name>SuperAdmin</Name>
-  <Version>1.1.0</Version>
+  <Version>7.0.0</Version>
   <Framework>6.x.x</Framework>
   <Framework>7.x.x</Framework>
   <Vendor>terreActive AG</Vendor>
